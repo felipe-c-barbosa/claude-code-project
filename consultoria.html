@@ -559,18 +559,10 @@ permalink: /
     const grid = document.getElementById('blogGrid');
     if (!grid) return;
 
-    const FEED_URL  = 'https://www.felipebarbosa.me/feed.xml';
-
-    async function fetchXml(url) {
-      // Proxy 1: corsproxy.io — devolve o XML direto
-      try {
-        const r = await fetch('https://corsproxy.io/?url=' + encodeURIComponent(url));
-        if (r.ok) return await r.text();
-      } catch (_) {}
-      // Proxy 2: api.allorigins.win — devolve { contents: "xml..." }
-      const r = await fetch('https://api.allorigins.win/get?disableCache=true&url=' + encodeURIComponent(url));
-      const j = await r.json();
-      return j.contents;
+    async function fetchXml() {
+      const r = await fetch('/.netlify/functions/fetch-feed');
+      if (!r.ok) throw new Error('feed fetch failed');
+      return await r.text();
     }
 
     const DEFAULT_IMG_SRC = 'https://res.cloudinary.com/felipe-barbosa/image/upload/v1677306860/Brand%20Assets/social-image-og-alternative-b.png';
@@ -698,7 +690,7 @@ permalink: /
     grid.innerHTML = skeleton();
 
     try {
-      const xmlStr = await fetchXml(FEED_URL);
+      const xmlStr = await fetchXml();
       const xml    = new DOMParser().parseFromString(xmlStr, 'text/xml');
       const entries = parseEntries(xml);
       if (!entries.length) throw new Error('empty');
