@@ -545,7 +545,8 @@ permalink: /
 
     if (menuOpen) {
       links.style.cssText = 'display:flex;flex-direction:column;align-items:center;position:fixed;top:68px;left:0;right:0;background:var(--navy);padding:24px;gap:20px;z-index:99;box-shadow:var(--shadow-lg);';
-      links.appendChild(cta); // move botão para dentro do dropdown
+      links.appendChild(cta);
+      cta.style.display = 'inline-block'; // sobrescreve o display:none da media query
     } else {
       links.after(cta);        // devolve ao lugar original (após nav-links)
       links.style.cssText = '';
