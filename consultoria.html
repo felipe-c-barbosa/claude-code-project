@@ -544,13 +544,12 @@ permalink: /
     toggle.setAttribute('aria-label', menuOpen ? 'Fechar menu' : 'Abrir menu');
 
     if (menuOpen) {
-      links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--navy);padding:24px 24px 0;gap:20px;z-index:99;box-shadow:var(--shadow-lg);';
-      // getBoundingClientRect forces a sync layout, giving the accurate bottom of the dropdown
-      const bottom = links.getBoundingClientRect().bottom;
-      cta.style.cssText = 'display:block;position:fixed;left:0;right:0;top:' + bottom + 'px;background:var(--navy);padding:12px 24px 24px;z-index:99;text-align:center;box-shadow:var(--shadow-lg);';
+      links.style.cssText = 'display:flex;flex-direction:column;align-items:center;position:fixed;top:68px;left:0;right:0;background:var(--navy);padding:24px;gap:20px;z-index:99;box-shadow:var(--shadow-lg);';
+      links.appendChild(cta); // move botão para dentro do dropdown
     } else {
+      links.after(cta);        // devolve ao lugar original (após nav-links)
       links.style.cssText = '';
-      cta.style.cssText = '';
+      cta.style.cssText   = '';
     }
   }
 
