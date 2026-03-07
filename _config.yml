@@ -3,10 +3,10 @@
 # Substitua os campos marcados com [Seu ...]
 # ─────────────────────────────────────────────
 
-title:       "[Seu Nome] | Consultoria em Marketing de Produto"
+title:       "Felipe Barbosa | Consultoria em Marketing de Produto"
 description: "Consultoria especializada em Marketing de Produto para empresas B2B e SaaS que querem crescer com estratégia e sem achismos."
-author:      "[Seu Nome]"
-email:       "contato@seusite.com.br"
+author:      "Felipe Barbosa"
+email:       "felipe [at] felipebarbosa.me"
 
 # URL de produção (sem barra no final)
 # Exemplo: https://seunome.netlify.app  ou  https://www.seusite.com.br
@@ -19,9 +19,9 @@ lang: "pt-BR"
 # ─────────────────────────────────────────────
 # Redes sociais
 # ─────────────────────────────────────────────
-linkedin_username: seu-perfil
-twitter_username:  seu-perfil
-instagram_username: seu-perfil
+linkedin_username: felipecardosobarbosa
+twitter_username:  felipecb_
+instagram_username: felipecb_
 
 # ─────────────────────────────────────────────
 # Build
@@ -56,10 +56,10 @@ twitter:
   card:     summary_large_image
 
 social:
-  name:  "[Seu Nome]"
+  name:  "Felipe Barbosa"
   links:
-    - https://linkedin.com/in/seu-perfil
-    - https://twitter.com/seu-perfil
+    - https://linkedin.com/in/felipecardosobarbosa
+    - https://twitter.com/felipecb_
 
 # Google Analytics (opcional) – substitua pelo seu ID
 # google_analytics: G-XXXXXXXXXX
