@@ -380,99 +380,11 @@ permalink: /
           Estratégia, frameworks e análises sobre Marketing de Produto aplicado.
         </p>
       </div>
-      <a href="/blog/" class="btn btn-primary">Ver todos os posts →</a>
+      <a href="https://www.felipebarbosa.me" target="_blank" rel="noopener" class="btn btn-primary">Ver todos os posts →</a>
     </div>
 
-    <div class="blog-grid">
-
-      <!-- Post 1 -->
-      <article class="post-card">
-        <!--
-          Substitua pela imagem do post:
-          <img src="/assets/images/post-1.jpg" alt="Título do post" class="post-img">
-        -->
-        <div class="post-img-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          <span>Imagem do post</span>
-        </div>
-        <div class="post-body">
-          <div class="post-meta">
-            <span class="post-tag">Posicionamento</span>
-            <span class="post-date">Jan 2025</span>
-          </div>
-          <h3>
-            <a href="/blog/como-definir-posicionamento-b2b/">
-              Como definir o posicionamento do seu produto B2B em 5 passos
-            </a>
-          </h3>
-          <p>
-            Guia prático para times de PMM que precisam construir um
-            posicionamento diferenciado sem perder semanas em workshops.
-          </p>
-          <a href="/blog/como-definir-posicionamento-b2b/" class="post-read-more">
-            Ler artigo <span aria-hidden="true">→</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- Post 2 -->
-      <article class="post-card">
-        <div class="post-img-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          <span>Imagem do post</span>
-        </div>
-        <div class="post-body">
-          <div class="post-meta">
-            <span class="post-tag">GTM</span>
-            <span class="post-date">Fev 2025</span>
-          </div>
-          <h3>
-            <a href="/blog/gtm-saas-checklist/">
-              O checklist de GTM que uso em todo lançamento de produto SaaS
-            </a>
-          </h3>
-          <p>
-            Do canal certo às métricas de sucesso — o framework completo
-            para planejar e executar um go-to-market sem improvisar.
-          </p>
-          <a href="/blog/gtm-saas-checklist/" class="post-read-more">
-            Ler artigo <span aria-hidden="true">→</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- Post 3 -->
-      <article class="post-card">
-        <div class="post-img-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          <span>Imagem do post</span>
-        </div>
-        <div class="post-body">
-          <div class="post-meta">
-            <span class="post-tag">Equipe PMM</span>
-            <span class="post-date">Mar 2025</span>
-          </div>
-          <h3>
-            <a href="/blog/quando-contratar-primeiro-pmm/">
-              Quando (e como) contratar o seu primeiro Product Marketer
-            </a>
-          </h3>
-          <p>
-            Os sinais que indicam que sua empresa está pronta, o perfil certo
-            para cada estágio e os erros mais comuns na primeira contratação.
-          </p>
-          <a href="/blog/quando-contratar-primeiro-pmm/" class="post-read-more">
-            Ler artigo <span aria-hidden="true">→</span>
-          </a>
-        </div>
-      </article>
-
+    <div class="blog-grid" id="blogGrid">
+      <!-- Posts carregados dinamicamente via RSS feed -->
     </div>
   </div>
 </section>
@@ -638,4 +550,90 @@ permalink: /
       if (menuOpen) toggleMenu();
     });
   });
+
+  // ---- Blog: carrega últimas 3 publicações via RSS ----
+  (async function loadBlogPosts() {
+    const grid = document.getElementById('blogGrid');
+    if (!grid) return;
+
+    const IMG_PLACEHOLDER = `
+      <div class="post-img-placeholder">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828
+               0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        <span>Imagem do post</span>
+      </div>`;
+
+    const MONTHS_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+    function skeleton() {
+      return Array(3).fill(`
+        <article class="post-card blog-skeleton">
+          <div class="post-img-placeholder"></div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-tag skel-block" style="width:72px">&nbsp;</span>
+              <span class="post-date skel-block" style="width:52px">&nbsp;</span>
+            </div>
+            <h3 class="skel-block" style="height:3.2em">&nbsp;</h3>
+            <p class="skel-block" style="height:4em;margin-top:10px">&nbsp;</p>
+          </div>
+        </article>`).join('');
+    }
+
+    function renderCard(item) {
+      const d = new Date(item.pubDate);
+      const dateStr = `${MONTHS_PT[d.getMonth()]} ${d.getFullYear()}`;
+      const tag = item.categories?.[0] || 'Blog';
+      const excerpt = item.description
+        ? item.description.replace(/<[^>]+>/g, '').trim().slice(0, 155) + '…'
+        : '';
+      const img = item.thumbnail
+        ? `<img src="${item.thumbnail}" alt="${item.title.replace(/"/g, '&quot;')}" class="post-img" loading="lazy">`
+        : IMG_PLACEHOLDER;
+
+      return `
+        <article class="post-card">
+          ${img}
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-tag">${tag}</span>
+              <span class="post-date">${dateStr}</span>
+            </div>
+            <h3><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></h3>
+            <p>${excerpt}</p>
+            <a href="${item.link}" target="_blank" rel="noopener" class="post-read-more">
+              Ler artigo <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>`;
+    }
+
+    grid.innerHTML = skeleton();
+
+    try {
+      const apiUrl = 'https://api.rss2json.com/v1/api.json?count=3&rss_url='
+        + encodeURIComponent('https://www.felipebarbosa.me/feed.xml');
+      const res  = await fetch(apiUrl);
+      const data = await res.json();
+      if (data.status !== 'ok' || !data.items?.length) throw new Error('empty');
+      grid.innerHTML = data.items.slice(0, 3).map(renderCard).join('');
+    } catch (_) {
+      // Em caso de falha mantém um card de fallback silencioso
+      grid.innerHTML = `
+        <article class="post-card" style="grid-column:1/-1;text-align:center;padding:40px">
+          <div class="post-body">
+            <p style="color:var(--gray-500)">
+              Não foi possível carregar os posts agora.
+              <a href="https://www.felipebarbosa.me" target="_blank" rel="noopener"
+                 style="color:var(--teal);font-weight:600">
+                Acesse o blog diretamente →
+              </a>
+            </p>
+          </div>
+        </article>`;
+    }
+  })();
 </script>

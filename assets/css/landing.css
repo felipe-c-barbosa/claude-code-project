@@ -841,6 +841,20 @@ a { color: inherit; text-decoration: none; }
 }
 .footer-legal a:hover { color: var(--white); }
 
+/* ---------- Blog skeleton ---------- */
+.skel-block {
+  display: block;
+  background: linear-gradient(90deg, var(--gray-100) 25%, var(--off-white) 50%, var(--gray-100) 75%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.4s infinite;
+  border-radius: 4px;
+  color: transparent !important;
+}
+@keyframes skel-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
