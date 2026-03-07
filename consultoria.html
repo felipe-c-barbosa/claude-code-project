@@ -573,7 +573,7 @@ permalink: /
       return j.contents;
     }
 
-    const IMG_PLACEHOLDER = `<img src="https://res.cloudinary.com/felipe-barbosa/image/upload/v1677306860/Brand%20Assets/social-image-og-alternative-b.png" alt="Felipe Barbosa" class="post-img" loading="lazy">`;
+    const DEFAULT_IMG_SRC = 'https://res.cloudinary.com/felipe-barbosa/image/upload/v1677306860/Brand%20Assets/social-image-og-alternative-b.png';
 
     const MONTHS_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
@@ -629,27 +629,70 @@ permalink: /
       }));
     }
 
+    function isSafeUrl(url) {
+      try {
+        const u = new URL(url);
+        return u.protocol === 'https:' || u.protocol === 'http:';
+      } catch (_) { return false; }
+    }
+
     function renderCard({ title, link, date, tag, rawDesc }) {
       const thumbnail = firstImgSrc(rawDesc);
       const excerpt   = stripHtml(rawDesc).slice(0, 155) + '…';
-      const img       = thumbnail
-        ? `<img src="${thumbnail}" alt="${title.replace(/"/g,'&quot;')}" class="post-img" loading="lazy">`
-        : IMG_PLACEHOLDER;
-      return `
-        <article class="post-card">
-          ${img}
-          <div class="post-body">
-            <div class="post-meta">
-              <span class="post-tag">${tag}</span>
-              <span class="post-date">${date}</span>
-            </div>
-            <h3><a href="${link}" target="_blank" rel="noopener">${title}</a></h3>
-            <p>${excerpt}</p>
-            <a href="${link}" target="_blank" rel="noopener" class="post-read-more">
-              Ler artigo <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </article>`;
+      const safeLink  = isSafeUrl(link) ? link : '#';
+
+      const article = document.createElement('article');
+      article.className = 'post-card';
+
+      const img = document.createElement('img');
+      img.src       = (thumbnail && isSafeUrl(thumbnail)) ? thumbnail : DEFAULT_IMG_SRC;
+      img.alt       = title;
+      img.className = 'post-img';
+      img.loading   = 'lazy';
+      article.appendChild(img);
+
+      const body = document.createElement('div');
+      body.className = 'post-body';
+
+      const meta = document.createElement('div');
+      meta.className = 'post-meta';
+      const tagSpan = document.createElement('span');
+      tagSpan.className   = 'post-tag';
+      tagSpan.textContent = tag;
+      const dateSpan = document.createElement('span');
+      dateSpan.className   = 'post-date';
+      dateSpan.textContent = date;
+      meta.appendChild(tagSpan);
+      meta.appendChild(dateSpan);
+      body.appendChild(meta);
+
+      const h3 = document.createElement('h3');
+      const titleA = document.createElement('a');
+      titleA.href        = safeLink;
+      titleA.target      = '_blank';
+      titleA.rel         = 'noopener noreferrer';
+      titleA.textContent = title;
+      h3.appendChild(titleA);
+      body.appendChild(h3);
+
+      const p = document.createElement('p');
+      p.textContent = excerpt;
+      body.appendChild(p);
+
+      const readMore = document.createElement('a');
+      readMore.href      = safeLink;
+      readMore.target    = '_blank';
+      readMore.rel       = 'noopener noreferrer';
+      readMore.className = 'post-read-more';
+      readMore.textContent = 'Ler artigo ';
+      const arrow = document.createElement('span');
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.textContent = '→';
+      readMore.appendChild(arrow);
+      body.appendChild(readMore);
+
+      article.appendChild(body);
+      return article;
     }
 
     grid.innerHTML = skeleton();
@@ -659,7 +702,8 @@ permalink: /
       const xml    = new DOMParser().parseFromString(xmlStr, 'text/xml');
       const entries = parseEntries(xml);
       if (!entries.length) throw new Error('empty');
-      grid.innerHTML = entries.map(renderCard).join('');
+      grid.innerHTML = '';
+      entries.forEach(entry => grid.appendChild(renderCard(entry)));
     } catch (_) {
       grid.innerHTML = `
         <article class="post-card" style="grid-column:1/-1;text-align:center;padding:40px">
