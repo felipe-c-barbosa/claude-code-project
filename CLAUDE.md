@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-Describe the purpose and goals of this project here.
+Esse é um repositório para teste de conceito do uso do Claude Code.
 
 ## Development Setup
 
