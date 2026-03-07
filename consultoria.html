@@ -15,16 +15,14 @@ permalink: /
       Felipe Barbosa
     </a>
 
-    <div class="mobile-nav-menu" id="mobileNavMenu">
-      <ul class="nav-links">
-        <li><a href="#sobre">Quem Sou</a></li>
-        <li><a href="#servicos">Serviços</a></li>
-        <li><a href="#blog">Conteúdo</a></li>
-        <li><a href="#contato">Contato</a></li>
-      </ul>
+    <ul class="nav-links">
+      <li><a href="#sobre">Quem Sou</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#blog">Conteúdo</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
 
-      <a href="#cadastro" class="nav-cta">Quero Conversar</a>
-    </div>
+    <a href="#cadastro" class="nav-cta">Quero Conversar</a>
 
     <!-- Mobile toggle -->
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" onclick="toggleMenu()">
@@ -538,11 +536,22 @@ permalink: /
   let menuOpen = false;
   function toggleMenu() {
     menuOpen = !menuOpen;
-    const menu   = document.getElementById('mobileNavMenu');
+    const links  = document.querySelector('.nav-links');
+    const cta    = document.querySelector('.nav-cta');
     const toggle = document.getElementById('navToggle');
-    menu.classList.toggle('open', menuOpen);
+
     toggle.classList.toggle('open', menuOpen);
     toggle.setAttribute('aria-label', menuOpen ? 'Fechar menu' : 'Abrir menu');
+
+    if (menuOpen) {
+      links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--navy);padding:24px 24px 0;gap:20px;z-index:99;box-shadow:var(--shadow-lg);';
+      // getBoundingClientRect forces a sync layout, giving the accurate bottom of the dropdown
+      const bottom = links.getBoundingClientRect().bottom;
+      cta.style.cssText = 'display:block;position:fixed;left:0;right:0;top:' + bottom + 'px;background:var(--navy);padding:12px 24px 24px;z-index:99;text-align:center;box-shadow:var(--shadow-lg);';
+    } else {
+      links.style.cssText = '';
+      cta.style.cssText = '';
+    }
   }
 
   // Fecha menu ao clicar em link
