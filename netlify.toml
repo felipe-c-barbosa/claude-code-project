@@ -1,0 +1,28 @@
+[build]
+  command         = "bundle exec jekyll build"
+  publish         = "_site"
+
+[build.environment]
+  RUBY_VERSION    = "3.3.0"
+  JEKYLL_ENV      = "production"
+
+# Redireciona raiz para /consultoria/ caso queira a landing page como home
+# Descomente as linhas abaixo se quiser esse comportamento:
+# [[redirects]]
+#   from   = "/"
+#   to     = "/consultoria/"
+#   status = 301
+
+# Headers de segurança e cache para assets estáticos
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection       = "1; mode=block"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
