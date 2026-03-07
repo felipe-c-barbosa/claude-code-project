@@ -516,34 +516,49 @@ a { color: inherit; text-decoration: none; }
 /* Stats grid (2×2) */
 .about-stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   margin: 28px 0;
 }
 
 .about-stat-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   background: var(--white);
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--gray-100);
   border-radius: var(--radius-md);
-  padding: 16px 18px;
+  padding: 20px;
   box-shadow: var(--shadow-sm);
-  transition: transform .2s, box-shadow .2s;
+  transition: transform .25s ease, box-shadow .25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--teal), var(--gold));
+  opacity: 0;
+  transition: opacity .25s;
 }
 
 .about-stat-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
+
+.about-stat-card:hover::before { opacity: 1; }
 
 .about-stat-icon {
   flex-shrink: 0;
   width: 48px;
   height: 48px;
   border-radius: var(--radius-sm);
-  background: var(--gray-100);
+  background: rgba(51, 0, 204, .08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -955,8 +970,8 @@ a { color: inherit; text-decoration: none; }
 
   .about-badge { bottom: -16px; right: -8px; }
 
-  .about-stats { grid-template-columns: repeat(2, 1fr); }
-  .about-stat-card { padding: 12px; gap: 10px; }
+  .about-stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .about-stat-card { padding: 14px; gap: 12px; }
   .about-stat-label { font-size: .85rem; }
   .about-stat-sub   { font-size: .75rem; }
 
@@ -967,4 +982,10 @@ a { color: inherit; text-decoration: none; }
 
   .footer-inner { grid-template-columns: 1fr; gap: 36px; }
   .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .about-stats { grid-template-columns: 1fr; gap: 12px; }
+  .about-stat-icon { width: 40px; height: 40px; }
+  .about-stat-icon svg { width: 20px; height: 20px; }
 }
