@@ -1,0 +1,65 @@
+# ─────────────────────────────────────────────
+# Configuração do site Jekyll
+# Substitua os campos marcados com [Seu ...]
+# ─────────────────────────────────────────────
+
+title:       "[Seu Nome] | Consultoria em Marketing de Produto"
+description: "Consultoria especializada em Marketing de Produto para empresas B2B e SaaS que querem crescer com estratégia e sem achismos."
+author:      "[Seu Nome]"
+email:       "contato@seusite.com.br"
+
+# URL de produção (sem barra no final)
+# Exemplo: https://seunome.netlify.app  ou  https://www.seusite.com.br
+url: "https://seu-site.netlify.app"
+baseurl: ""  # Deixe vazio se o site estiver na raiz do domínio
+
+# Idioma
+lang: "pt-BR"
+
+# ─────────────────────────────────────────────
+# Redes sociais
+# ─────────────────────────────────────────────
+linkedin_username: seu-perfil
+twitter_username:  seu-perfil
+instagram_username: seu-perfil
+
+# ─────────────────────────────────────────────
+# Build
+# ─────────────────────────────────────────────
+markdown:    kramdown
+highlighter: rouge
+permalink:   /:categories/:title/
+
+# Pastas/arquivos ignorados pelo Jekyll
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - CLAUDE.md
+  - netlify.toml
+  - .git
+  - .gitignore
+  - vendor
+
+# ─────────────────────────────────────────────
+# Plugins (compatíveis com GitHub Pages e Netlify)
+# ─────────────────────────────────────────────
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# ─────────────────────────────────────────────
+# SEO (jekyll-seo-tag)
+# ─────────────────────────────────────────────
+twitter:
+  username: seu-perfil
+  card:     summary_large_image
+
+social:
+  name:  "[Seu Nome]"
+  links:
+    - https://linkedin.com/in/seu-perfil
+    - https://twitter.com/seu-perfil
+
+# Google Analytics (opcional) – substitua pelo seu ID
+# google_analytics: G-XXXXXXXXXX
