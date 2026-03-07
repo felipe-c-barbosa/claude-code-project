@@ -517,7 +517,7 @@ a { color: inherit; text-decoration: none; }
 .about-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
   margin: 28px 0;
 }
 
@@ -526,10 +526,16 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 14px;
   background: var(--white);
-  border: 1px solid var(--gray-100);
+  border: 1px solid var(--gray-300);
   border-radius: var(--radius-md);
   padding: 16px 18px;
-  box-shadow: 0 1px 4px rgba(26,0,110,.06);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.about-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
 .about-stat-icon {
@@ -949,7 +955,10 @@ a { color: inherit; text-decoration: none; }
 
   .about-badge { bottom: -16px; right: -8px; }
 
-  .about-stats { grid-template-columns: 1fr; }
+  .about-stats { grid-template-columns: repeat(2, 1fr); }
+  .about-stat-card { padding: 12px; gap: 10px; }
+  .about-stat-label { font-size: .85rem; }
+  .about-stat-sub   { font-size: .75rem; }
 
   .services-grid { grid-template-columns: 1fr; }
 
