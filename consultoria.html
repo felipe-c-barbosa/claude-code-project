@@ -557,7 +557,18 @@ permalink: /
     if (!grid) return;
 
     const FEED_URL  = 'https://www.felipebarbosa.me/feed.xml';
-    const PROXY_URL = 'https://allorigins.win/get?disableCache=true&url=';
+
+    async function fetchXml(url) {
+      // Proxy 1: corsproxy.io — devolve o XML direto
+      try {
+        const r = await fetch('https://corsproxy.io/?url=' + encodeURIComponent(url));
+        if (r.ok) return await r.text();
+      } catch (_) {}
+      // Proxy 2: api.allorigins.win — devolve { contents: "xml..." }
+      const r = await fetch('https://api.allorigins.win/get?disableCache=true&url=' + encodeURIComponent(url));
+      const j = await r.json();
+      return j.contents;
+    }
 
     const IMG_PLACEHOLDER = `
       <div class="post-img-placeholder">
@@ -649,9 +660,8 @@ permalink: /
     grid.innerHTML = skeleton();
 
     try {
-      const res  = await fetch(PROXY_URL + encodeURIComponent(FEED_URL));
-      const json = await res.json();
-      const xml  = new DOMParser().parseFromString(json.contents, 'text/xml');
+      const xmlStr = await fetchXml(FEED_URL);
+      const xml    = new DOMParser().parseFromString(xmlStr, 'text/xml');
       const entries = parseEntries(xml);
       if (!entries.length) throw new Error('empty');
       grid.innerHTML = entries.map(renderCard).join('');
