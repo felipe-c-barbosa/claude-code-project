@@ -528,8 +528,13 @@ permalink: /
 
   // Nav: adiciona classe ao rolar
   const nav = document.getElementById('siteNav');
+  const menuBg = () => nav.classList.contains('scrolled') ? 'var(--white)' : 'var(--navy)';
+
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
+    if (menuOpen) {
+      document.querySelector('.nav-links').style.background = menuBg();
+    }
   }, { passive: true });
 
   // Mobile menu toggle
@@ -544,7 +549,7 @@ permalink: /
     toggle.setAttribute('aria-label', menuOpen ? 'Fechar menu' : 'Abrir menu');
 
     if (menuOpen) {
-      links.style.cssText = 'display:flex;flex-direction:column;align-items:center;position:fixed;top:68px;left:0;right:0;background:var(--navy);padding:24px;gap:20px;z-index:99;box-shadow:var(--shadow-lg);';
+      links.style.cssText = `display:flex;flex-direction:column;align-items:center;position:fixed;top:68px;left:0;right:0;background:${menuBg()};padding:24px;gap:20px;z-index:99;box-shadow:var(--shadow-lg);`;
       links.appendChild(cta);
       cta.style.display = 'inline-block'; // sobrescreve o display:none da media query
     } else {
