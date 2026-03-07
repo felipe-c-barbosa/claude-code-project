@@ -556,6 +556,9 @@ permalink: /
     const grid = document.getElementById('blogGrid');
     if (!grid) return;
 
+    const FEED_URL  = 'https://www.felipebarbosa.me/feed.xml';
+    const PROXY_URL = 'https://allorigins.win/get?disableCache=true&url=';
+
     const IMG_PLACEHOLDER = `
       <div class="post-img-placeholder">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -583,28 +586,60 @@ permalink: /
         </article>`).join('');
     }
 
-    function renderCard(item) {
-      const d = new Date(item.pubDate);
-      const dateStr = `${MONTHS_PT[d.getMonth()]} ${d.getFullYear()}`;
-      const tag = item.categories?.[0] || 'Blog';
-      const excerpt = item.description
-        ? item.description.replace(/<[^>]+>/g, '').trim().slice(0, 155) + '…'
-        : '';
-      const img = item.thumbnail
-        ? `<img src="${item.thumbnail}" alt="${item.title.replace(/"/g, '&quot;')}" class="post-img" loading="lazy">`
-        : IMG_PLACEHOLDER;
+    function parseDate(str) {
+      const d = new Date(str);
+      if (isNaN(d)) return '';
+      return `${MONTHS_PT[d.getMonth()]} ${d.getFullYear()}`;
+    }
 
+    function firstImgSrc(html) {
+      const m = html && html.match(/<img[^>]+src=["']([^"']+)["']/i);
+      return m ? m[1] : null;
+    }
+
+    function stripHtml(html) {
+      return html ? html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() : '';
+    }
+
+    function parseEntries(xml) {
+      // Atom (jekyll-feed padrão): usa <entry>
+      const atomEntries = xml.querySelectorAll('entry');
+      if (atomEntries.length) {
+        return Array.from(atomEntries).slice(0, 3).map(e => ({
+          title:    e.querySelector('title')?.textContent?.trim() || '',
+          link:     e.querySelector('link')?.getAttribute('href') || '',
+          date:     parseDate(e.querySelector('published, updated')?.textContent || ''),
+          tag:      e.querySelector('category')?.getAttribute('term') || 'Blog',
+          rawDesc:  e.querySelector('content, summary')?.textContent || '',
+        }));
+      }
+      // RSS 2.0 fallback: usa <item>
+      return Array.from(xml.querySelectorAll('item')).slice(0, 3).map(e => ({
+        title:    e.querySelector('title')?.textContent?.trim() || '',
+        link:     e.querySelector('link')?.textContent?.trim() || '',
+        date:     parseDate(e.querySelector('pubDate')?.textContent || ''),
+        tag:      e.querySelector('category')?.textContent?.trim() || 'Blog',
+        rawDesc:  e.querySelector('description')?.textContent || '',
+      }));
+    }
+
+    function renderCard({ title, link, date, tag, rawDesc }) {
+      const thumbnail = firstImgSrc(rawDesc);
+      const excerpt   = stripHtml(rawDesc).slice(0, 155) + '…';
+      const img       = thumbnail
+        ? `<img src="${thumbnail}" alt="${title.replace(/"/g,'&quot;')}" class="post-img" loading="lazy">`
+        : IMG_PLACEHOLDER;
       return `
         <article class="post-card">
           ${img}
           <div class="post-body">
             <div class="post-meta">
               <span class="post-tag">${tag}</span>
-              <span class="post-date">${dateStr}</span>
+              <span class="post-date">${date}</span>
             </div>
-            <h3><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></h3>
+            <h3><a href="${link}" target="_blank" rel="noopener">${title}</a></h3>
             <p>${excerpt}</p>
-            <a href="${item.link}" target="_blank" rel="noopener" class="post-read-more">
+            <a href="${link}" target="_blank" rel="noopener" class="post-read-more">
               Ler artigo <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -614,14 +649,13 @@ permalink: /
     grid.innerHTML = skeleton();
 
     try {
-      const apiUrl = 'https://api.rss2json.com/v1/api.json?count=3&rss_url='
-        + encodeURIComponent('https://www.felipebarbosa.me/feed.xml');
-      const res  = await fetch(apiUrl);
-      const data = await res.json();
-      if (data.status !== 'ok' || !data.items?.length) throw new Error('empty');
-      grid.innerHTML = data.items.slice(0, 3).map(renderCard).join('');
+      const res  = await fetch(PROXY_URL + encodeURIComponent(FEED_URL));
+      const json = await res.json();
+      const xml  = new DOMParser().parseFromString(json.contents, 'text/xml');
+      const entries = parseEntries(xml);
+      if (!entries.length) throw new Error('empty');
+      grid.innerHTML = entries.map(renderCard).join('');
     } catch (_) {
-      // Em caso de falha mantém um card de fallback silencioso
       grid.innerHTML = `
         <article class="post-card" style="grid-column:1/-1;text-align:center;padding:40px">
           <div class="post-body">
