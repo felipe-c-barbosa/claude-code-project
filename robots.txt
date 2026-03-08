@@ -1,0 +1,27 @@
+---
+---
+# robots.txt — Felipe Barbosa | Consultoria em Marketing de Produto
+#
+# ⚠️  SITE EM DESENVOLVIMENTO
+# Indexação bloqueada para todos os buscadores.
+# Quando o site entrar no ar, substitua "Disallow: /" por "Allow: /"
+# e descomente a linha do Sitemap abaixo.
+
+User-agent: *
+Disallow: /
+
+# GPTBot (OpenAI), Google-Extended e outros rastreadores de IA
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# ── Ativar quando o site for publicado ──────────────────────────────
+# Sitemap: {{ site.url }}/sitemap.xml
