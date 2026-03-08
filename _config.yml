@@ -46,7 +46,7 @@ exclude:
 # ─────────────────────────────────────────────
 plugins:
   - jekyll-seo-tag
-  - jekyll-sitemap
+  # jekyll-sitemap removido: sitemap.xml gerado manualmente (sitemap.xml)
 
 # ─────────────────────────────────────────────
 # SEO (jekyll-seo-tag)

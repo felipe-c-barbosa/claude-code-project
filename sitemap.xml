@@ -1,0 +1,39 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  {%- comment -%} Páginas estáticas {%- endcomment -%}
+  {%- for page in site.pages -%}
+    {%- unless page.sitemap == false or page.url contains "feed" or page.url contains "sitemap" -%}
+  <url>
+    <loc>{{ site.url }}{{ page.url | replace: "index.html", "" | xml_escape }}</loc>
+    {%- if page.last_modified_at -%}
+    <lastmod>{{ page.last_modified_at | date: "%Y-%m-%dT%H:%M:%S+00:00" }}</lastmod>
+    {%- elsif page.date -%}
+    <lastmod>{{ page.date | date: "%Y-%m-%dT%H:%M:%S+00:00" }}</lastmod>
+    {%- endif -%}
+    <changefreq>weekly</changefreq>
+    <priority>{% if page.url == "/" %}1.0{% else %}0.8{% endif %}</priority>
+  </url>
+    {%- endunless -%}
+  {%- endfor -%}
+
+  {%- comment -%} Posts do blog (quando existirem) {%- endcomment -%}
+  {%- for post in site.posts -%}
+    {%- unless post.sitemap == false -%}
+  <url>
+    <loc>{{ site.url }}{{ post.url | xml_escape }}</loc>
+    <lastmod>{{ post.date | date: "%Y-%m-%dT%H:%M:%S+00:00" }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+    {%- endunless -%}
+  {%- endfor -%}
+
+</urlset>
