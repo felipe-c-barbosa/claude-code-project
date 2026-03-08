@@ -94,8 +94,21 @@ permalink: /
           Sem spam — só o que importa.
         </p>
 
-        <!-- Substitua a action pelo seu endpoint (Mailchimp, ConvertKit, Formspree etc.) -->
-        <form action="https://formspree.io/f/SEU_ENDPOINT" method="POST" novalidate>
+        <form
+          name="hero-signup"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          data-netlify-recaptcha="true"
+          novalidate
+        >
+          <input type="hidden" name="form-name" value="hero-signup" />
+
+          <!-- Honeypot: campo oculto para bloquear bots -->
+          <p style="display:none">
+            <label>Não preencha este campo: <input name="bot-field" /></label>
+          </p>
+
           <div class="form-group">
             <label for="hero-name">Seu nome</label>
             <input
@@ -116,6 +129,10 @@ permalink: /
               required
             />
           </div>
+
+          <!-- reCAPTCHA 2 fornecido pela Netlify -->
+          <div data-netlify-recaptcha="true"></div>
+
           <button type="submit" class="btn btn-primary form-submit">
             Quero receber insights →
           </button>
@@ -427,8 +444,22 @@ permalink: /
       conversarmos sobre o seu desafio.
     </p>
 
-    <!-- Substitua a action pelo seu endpoint -->
-    <form class="cta-form" action="https://formspree.io/f/SEU_ENDPOINT" method="POST" novalidate>
+    <form
+      class="cta-form"
+      name="cta-signup"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      data-netlify-recaptcha="true"
+      novalidate
+    >
+      <input type="hidden" name="form-name" value="cta-signup" />
+
+      <!-- Honeypot: campo oculto para bloquear bots -->
+      <p style="display:none">
+        <label>Não preencha este campo: <input name="bot-field" /></label>
+      </p>
+
       <input
         type="text"
         name="name"
@@ -443,6 +474,10 @@ permalink: /
         required
         aria-label="Seu e-mail"
       />
+
+      <!-- reCAPTCHA 2 fornecido pela Netlify -->
+      <div data-netlify-recaptcha="true"></div>
+
       <button type="submit" class="btn btn-gold">
         Quero fazer parte →
       </button>
