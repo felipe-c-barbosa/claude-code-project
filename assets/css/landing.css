@@ -390,6 +390,8 @@ a { color: inherit; text-decoration: none; }
 
 .form-group input::placeholder { color: rgba(255,255,255,.4); }
 .form-group input:focus { border-color: var(--gold); background: rgba(255,255,255,.15); }
+.form-group input.input-error { border-color: #f87171; }
+.field-error { display: block; margin-top: 5px; font-size: .78rem; color: #f87171; }
 
 .form-submit { width: 100%; justify-content: center; margin-top: 8px; }
 
@@ -828,6 +830,7 @@ a { color: inherit; text-decoration: none; }
 }
 .cta-form input::placeholder { color: rgba(255,255,255,.4); }
 .cta-form input:focus { border-color: var(--gold); background: rgba(255,255,255,.14); }
+.cta-form input.input-error { border-color: #f87171; }
 
 .cta-form .btn { justify-content: center; }
 

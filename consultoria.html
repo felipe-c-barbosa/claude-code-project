@@ -99,7 +99,6 @@ permalink: /
           method="POST"
           data-netlify="true"
           netlify-honeypot="bot-field"
-          novalidate
         >
           <input type="hidden" name="form-name" value="hero-signup" />
 
@@ -446,7 +445,6 @@ permalink: /
       method="POST"
       data-netlify="true"
       netlify-honeypot="bot-field"
-      novalidate
     >
       <input type="hidden" name="form-name" value="cta-signup" />
 
@@ -769,4 +767,56 @@ permalink: /
         </article>`;
     }
   })();
+
+  // ---- Validação de formulários ----
+  function validateField(input) {
+    const errorId = input.id ? input.id + '-error' : input.name + '-error';
+    let errorEl = input.parentElement.querySelector('.field-error');
+
+    if (!input.value.trim()) {
+      input.classList.add('input-error');
+      if (!errorEl) {
+        errorEl = document.createElement('span');
+        errorEl.className = 'field-error';
+        errorEl.id = errorId;
+        input.after(errorEl);
+      }
+      errorEl.textContent = input.type === 'email'
+        ? 'Informe seu e-mail.'
+        : 'Informe seu nome.';
+      return false;
+    }
+
+    if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
+      input.classList.add('input-error');
+      if (!errorEl) {
+        errorEl = document.createElement('span');
+        errorEl.className = 'field-error';
+        errorEl.id = errorId;
+        input.after(errorEl);
+      }
+      errorEl.textContent = 'Informe um e-mail válido.';
+      return false;
+    }
+
+    input.classList.remove('input-error');
+    if (errorEl) errorEl.remove();
+    return true;
+  }
+
+  document.querySelectorAll('form[data-netlify]').forEach(form => {
+    const requiredInputs = form.querySelectorAll('input[required]');
+
+    requiredInputs.forEach(input => {
+      input.addEventListener('input', () => validateField(input));
+    });
+
+    form.addEventListener('submit', e => {
+      const allValid = Array.from(requiredInputs).map(validateField).every(Boolean);
+      if (!allValid) {
+        e.preventDefault();
+        form.querySelector('input.input-error').focus();
+      }
+    });
+  });
 </script>
