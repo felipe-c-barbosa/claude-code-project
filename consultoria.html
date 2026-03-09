@@ -837,12 +837,14 @@ permalink: /
         input.addEventListener('input', () => validateField(input));
       });
 
-      form.addEventListener('submit', async e => {
+      form.addEventListener('submit', function(e) {
         e.preventDefault();
+        e.stopPropagation();
 
         const allValid = Array.from(requiredInputs).map(validateField).every(Boolean);
         if (!allValid) {
-          form.querySelector('input.input-error')?.focus();
+          const firstError = form.querySelector('input.input-error');
+          if (firstError) firstError.focus();
           return;
         }
 
@@ -853,28 +855,28 @@ permalink: /
           submitBtn.textContent = 'Enviando…';
         }
 
-        try {
-          await fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: encodeFormData(form),
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: encodeFormData(form),
+        })
+          .then(function() {
+            if (container && savedHTML) showSuccess(container, savedHTML);
+          })
+          .catch(function() {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = originalBtnText;
+            }
+            var errEl = form.querySelector('.form-submit-error');
+            if (!errEl) {
+              errEl = document.createElement('p');
+              errEl.className = 'form-submit-error field-error';
+              errEl.style.textAlign = 'center';
+              form.appendChild(errEl);
+            }
+            errEl.textContent = 'Ops! Algo deu errado. Tente novamente.';
           });
-
-          if (container && savedHTML) showSuccess(container, savedHTML);
-        } catch (_) {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalBtnText;
-          }
-          let errEl = form.querySelector('.form-submit-error');
-          if (!errEl) {
-            errEl = document.createElement('p');
-            errEl.className = 'form-submit-error field-error';
-            errEl.style.textAlign = 'center';
-            form.appendChild(errEl);
-          }
-          errEl.textContent = 'Ops! Algo deu errado. Tente novamente.';
-        }
       });
     });
   }
