@@ -804,19 +804,81 @@ permalink: /
     return true;
   }
 
-  document.querySelectorAll('form[data-netlify]').forEach(form => {
-    const requiredInputs = form.querySelectorAll('input[required]');
+  function encodeFormData(form) {
+    return new URLSearchParams(new FormData(form)).toString();
+  }
 
-    requiredInputs.forEach(input => {
-      input.addEventListener('input', () => validateField(input));
+  function showSuccess(container, savedHTML) {
+    container.innerHTML = `
+      <div class="form-success" role="alert" aria-live="polite">
+        <div class="form-success-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h3>Recebi seu cadastro.</h3>
+        <p>Obrigado!</p>
+        <button class="btn btn-outline form-back-btn" type="button" style="margin-top:4px">← Voltar ao formulário</button>
+      </div>`;
+
+    container.querySelector('.form-back-btn').addEventListener('click', () => {
+      container.innerHTML = savedHTML;
+      setupForms(container);
     });
+  }
 
-    form.addEventListener('submit', e => {
-      const allValid = Array.from(requiredInputs).map(validateField).every(Boolean);
-      if (!allValid) {
+  function setupForms(root) {
+    (root || document).querySelectorAll('form[data-netlify]').forEach(form => {
+      const container = form.closest('.hero-form-card') || form.closest('.cta-inner');
+      const requiredInputs = form.querySelectorAll('input[required]');
+      const savedHTML = container ? container.innerHTML : null;
+
+      requiredInputs.forEach(input => {
+        input.addEventListener('input', () => validateField(input));
+      });
+
+      form.addEventListener('submit', async e => {
         e.preventDefault();
-        form.querySelector('input.input-error').focus();
-      }
+
+        const allValid = Array.from(requiredInputs).map(validateField).every(Boolean);
+        if (!allValid) {
+          form.querySelector('input.input-error')?.focus();
+          return;
+        }
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        const originalBtnText = submitBtn ? submitBtn.textContent : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Enviando…';
+        }
+
+        try {
+          const res = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: encodeFormData(form),
+          });
+
+          if (!res.ok) throw new Error('server');
+          if (container && savedHTML) showSuccess(container, savedHTML);
+        } catch (_) {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+          }
+          let errEl = form.querySelector('.form-submit-error');
+          if (!errEl) {
+            errEl = document.createElement('p');
+            errEl.className = 'form-submit-error field-error';
+            errEl.style.textAlign = 'center';
+            form.appendChild(errEl);
+          }
+          errEl.textContent = 'Ops! Algo deu errado. Tente novamente.';
+        }
+      });
     });
-  });
+  }
+
+  setupForms();
 </script>
