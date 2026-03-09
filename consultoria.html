@@ -828,7 +828,7 @@ permalink: /
   }
 
   function setupForms(root) {
-    (root || document).querySelectorAll('form[data-netlify]').forEach(form => {
+    (root || document).querySelectorAll('form[data-netlify], form[netlify]').forEach(form => {
       const container = form.closest('.hero-form-card') || form.closest('.cta-inner');
       const requiredInputs = form.querySelectorAll('input[required]');
       const savedHTML = container ? container.innerHTML : null;
