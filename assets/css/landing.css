@@ -939,6 +939,7 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   gap: 16px;
   padding: 12px 0;
+  color: var(--white);
 }
 
 .form-success-icon {
@@ -950,8 +951,11 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gold-lt);
   flex-shrink: 0;
+}
+
+.form-success-icon svg {
+  stroke: var(--gold-lt);
 }
 
 .form-success h3 {
