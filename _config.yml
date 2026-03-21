@@ -10,7 +10,7 @@ email:       "felipe [at] felipebarbosa.me"
 
 # URL de produção (sem barra no final)
 # Exemplo: https://seunome.netlify.app  ou  https://www.seusite.com.br
-url: "https://seu-site.netlify.app"
+url: "https://consultoria.felipebarbosa.me/"
 baseurl: ""  # Deixe vazio se o site estiver na raiz do domínio
 
 # Idioma
