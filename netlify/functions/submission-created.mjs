@@ -73,11 +73,6 @@ export default async function handler(request) {
     const resendPayload = {
       email,
       unsubscribed: false,
-      properties: {
-        source: formName,
-        netlify_submission_id: submission.id || "",
-        site_url: submission.site_url || event.site?.url || "",
-      },
     };
 
     if (firstName) resendPayload.first_name = firstName;
