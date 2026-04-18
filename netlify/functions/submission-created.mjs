@@ -1,5 +1,7 @@
 const ACCEPTED_FORMS = new Set(["hero-signup", "cta-signup"]);
 const RESEND_CONTACTS_URL = "https://api.resend.com/contacts";
+const RESEND_EVENTS_SEND_URL = "https://api.resend.com/events/send";
+const DEFAULT_AUTOMATION_EVENT_NAME = "site.lead.created";
 
 function clean(value) {
   return typeof value === "string" ? value.trim() : "";
@@ -37,9 +39,24 @@ async function createResendContact(payload, apiKey, idempotencyKey) {
   });
 }
 
+async function sendResendEvent(payload, apiKey) {
+  return fetch(RESEND_EVENTS_SEND_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "User-Agent": "felipebarbosa-netlify/1.0",
+    },
+    body: JSON.stringify(payload),
+  });
+}
+
 export default async function handler(request) {
   const apiKey = process.env.RESEND_API_KEY;
   const segmentId = process.env.RESEND_SEGMENT_ID;
+  const automationEventName =
+    clean(process.env.RESEND_AUTOMATION_EVENT_NAME) ||
+    DEFAULT_AUTOMATION_EVENT_NAME;
 
   if (!apiKey) {
     console.error("Missing RESEND_API_KEY");
@@ -95,16 +112,14 @@ export default async function handler(request) {
           email,
           formName,
         });
+      } else {
+        console.error("Resend contact create failed", {
+          status: resendResponse.status,
+          body: responseBody,
+        });
 
-        return new Response("Contact already exists", { status: 200 });
+        return new Response("Resend failed", { status: 502 });
       }
-
-      console.error("Resend contact create failed", {
-        status: resendResponse.status,
-        body: responseBody,
-      });
-
-      return new Response("Resend failed", { status: 502 });
     }
 
     console.info("Contact sent to Resend", {
@@ -113,7 +128,38 @@ export default async function handler(request) {
       submissionId: submission.id,
     });
 
-    return new Response("Contact sent to Resend", { status: 200 });
+    const eventPayload = {
+      event: automationEventName,
+      email,
+      payload: {
+        firstName,
+        lastName,
+        name,
+        formName,
+      },
+    };
+
+    const eventResponse = await sendResendEvent(eventPayload, apiKey);
+    const eventResponseBody = await eventResponse.text();
+
+    if (!eventResponse.ok) {
+      console.error("Resend event send failed", {
+        status: eventResponse.status,
+        body: eventResponseBody,
+        event: automationEventName,
+        email,
+      });
+
+      return new Response("Resend event failed", { status: 502 });
+    }
+
+    console.info("Resend automation event sent", {
+      event: automationEventName,
+      email,
+      formName,
+    });
+
+    return new Response("Contact and event sent to Resend", { status: 200 });
   } catch (error) {
     console.error("submission-created failed", error);
     return new Response("Internal error", { status: 500 });
