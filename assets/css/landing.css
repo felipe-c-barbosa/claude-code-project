@@ -49,6 +49,12 @@ img { max-width: 100%; display: block; }
 
 a { color: inherit; text-decoration: none; }
 
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 /* ---------- Utilities ---------- */
 .container {
   width: 100%;
@@ -243,11 +249,10 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #3300cc 100%);
 }
 
-/* Placeholder for hero background image */
 .hero-bg-img {
   position: absolute;
   inset: 0;
-  background-image: url('../images/hero-bg.jpg'); /* Substituir pelo caminho da imagem */
+  background-image: url('../images/hero-bg.jpg');
   background-size: cover;
   background-position: center;
   opacity: 0.18;
@@ -402,7 +407,6 @@ a { color: inherit; text-decoration: none; }
   margin-top: 12px;
 }
 
-/* Profile image placeholder */
 .profile-img-wrap {
   position: relative;
   display: inline-block;
