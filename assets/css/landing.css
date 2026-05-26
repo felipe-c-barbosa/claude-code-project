@@ -6,15 +6,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --navy:      #1a006e;
-  --navy-mid:  #2800aa;
-  --teal:      #3300cc;
-  --teal-lt:   #5533ee;
-  --gold:      #e85500;
-  --gold-lt:   #f06820;
+  --navy:      #150140;
+  --navy-mid:  #3f04bf;
+  --teal:      #3f04bf;
+  --teal-lt:   #1007e3;
+  --gold:      #f25c05;
+  --gold-lt:   #ff6e20;
   --white:     #ffffff;
-  --off-white: #fff3e8;
-  --gray-100:  #f5ede0;
+  --off-white: #fff9e6;
+  --gray-100:  #f2e6c2;
   --gray-300:  #c8bdb0;
   --gray-500:  #7a6e66;
   --gray-700:  #3d3530;
@@ -240,7 +240,7 @@ a { color: inherit; text-decoration: none; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #3300cc 100%);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #3f04bf 100%);
 }
 
 /* Placeholder for hero background image */
@@ -256,7 +256,7 @@ a { color: inherit; text-decoration: none; }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(85,51,238,.25) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(16,7,227,.25) 0%, transparent 65%);
 }
 
 .hero-inner {
@@ -281,9 +281,9 @@ a { color: inherit; text-decoration: none; }
   color: var(--teal-lt);
   margin-bottom: 20px;
   padding: 6px 14px;
-  background: rgba(85,51,238,.2);
+  background: rgba(16,7,227,.2);
   border-radius: 100px;
-  border: 1px solid rgba(85,51,238,.3);
+  border: 1px solid rgba(16,7,227,.3);
 }
 
 .hero-title {
@@ -560,7 +560,7 @@ a { color: inherit; text-decoration: none; }
   width: 48px;
   height: 48px;
   border-radius: var(--radius-sm);
-  background: rgba(51, 0, 204, .08);
+  background: rgba(63, 4, 191, .08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -586,7 +586,7 @@ a { color: inherit; text-decoration: none; }
   flex-shrink: 0;
   width: 22px; height: 22px;
   border-radius: 50%;
-  background: rgba(51,0,204,.12);
+  background: rgba(63, 4, 191, .12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -635,7 +635,7 @@ a { color: inherit; text-decoration: none; }
 .service-icon {
   width: 52px; height: 52px;
   border-radius: var(--radius-sm);
-  background: rgba(51,0,204,.1);
+  background: rgba(63, 4, 191, .1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -691,13 +691,13 @@ a { color: inherit; text-decoration: none; }
 .mentorship-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #3300cc 100%);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #3f04bf 100%);
 }
 
 .mentorship-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(85,51,238,.25) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(16,7,227,.25) 0%, transparent 65%);
 }
 
 .mentorship .container {
@@ -806,7 +806,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--teal);
-  background: rgba(51,0,204,.08);
+  background: rgba(63, 4, 191, .08);
   padding: 3px 10px;
   border-radius: 100px;
 }
@@ -858,7 +858,7 @@ a { color: inherit; text-decoration: none; }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 120%, rgba(232,85,0,.25) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 120%, rgba(242,92,5,.25) 0%, transparent 65%);
 }
 
 .cta-inner { position: relative; z-index: 1; max-width: 640px; margin-inline: auto; padding-inline: 24px; }
