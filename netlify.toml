@@ -1,5 +1,5 @@
 [build]
-  command         = "bundle exec jekyll build"
+  command         = "mkdir -p _includes && curl -sL 'https://raw.githubusercontent.com/felipe-c-barbosa/blog-to-netlify/main/_includes/shared-footer.html' -o _includes/shared-footer.html && bundle exec jekyll build"
   publish         = "_site"
 
 [build.environment]
