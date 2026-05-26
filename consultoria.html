@@ -21,7 +21,7 @@ permalink: /
       <li><a href="#mentoria">Mentoria</a></li>
       <li><a href="#blog">Conteúdo</a></li>
       <li><a href="#contato">Contato</a></li>
-      <li><a href="https://www.felipebarbosa.me">Blog ↗</a></li>
+      <li><a href="https://www.felipebarbosa.me">Blog</a></li>
     </ul>
 
     <a href="#hs-chat-open" class="nav-cta">Quero Conversar</a>
@@ -674,7 +674,6 @@ permalink: /
     }
 
     function parseEntries(xml) {
-      // Atom (jekyll-feed padrão): usa <entry>
       const atomEntries = xml.querySelectorAll('entry');
       if (atomEntries.length) {
         return Array.from(atomEntries).slice(0, 3).map(e => ({
@@ -685,7 +684,6 @@ permalink: /
           rawDesc:  e.querySelector('content, summary')?.textContent || '',
         }));
       }
-      // RSS 2.0 fallback: usa <item>
       return Array.from(xml.querySelectorAll('item')).slice(0, 3).map(e => ({
         title:    e.querySelector('title')?.textContent?.trim() || '',
         link:     e.querySelector('link')?.textContent?.trim() || '',
