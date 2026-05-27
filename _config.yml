@@ -52,7 +52,7 @@ plugins:
 # SEO (jekyll-seo-tag)
 # ─────────────────────────────────────────────
 twitter:
-  username: seu-perfil
+  username: felipecb_
   card:     summary_large_image
 
 social:
