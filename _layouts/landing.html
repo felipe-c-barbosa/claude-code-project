@@ -1,10 +1,111 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- jekyll-seo-tag gera title, description, og:image, canonical etc. -->
   {% seo %}
+
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Felipe Barbosa",
+      "jobTitle": "Consultor de Marketing de Produto",
+      "description": "Especialista em Marketing de Produto com mais de 10 anos de experiência em empresas B2B e SaaS. Marketing Manager na Nubank, instrutor na PM3 e embaixador da Product Marketing Alliance no Brasil.",
+      "url": "https://consultoria.felipebarbosa.me",
+      "image": "https://res.cloudinary.com/felipe-barbosa/image/upload/v1677279984/Brand%20Assets/felipe_barbosa-logo-icon-alternative.png",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Nubank"
+      },
+      "knowsAbout": [
+        "Marketing de Produto",
+        "Product Marketing",
+        "Go-to-Market",
+        "Posicionamento de Produto",
+        "Marketing B2B",
+        "SaaS Marketing",
+        "Estratégia de Go-to-Market",
+        "Liderança de times de PMM"
+      ],
+      "sameAs": [
+        "https://twitter.com/felipecb_",
+        "https://www.linkedin.com/in/felipecardosobarbosa",
+        "https://www.felipebarbosa.me"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Felipe Barbosa | Consultoria em Marketing de Produto",
+      "description": "Consultoria especializada em Marketing de Produto para empresas B2B e SaaS que querem crescer com estratégia, posicionamento claro e execução orientada a dados.",
+      "url": "https://consultoria.felipebarbosa.me",
+      "provider": {
+        "@type": "Person",
+        "name": "Felipe Barbosa"
+      },
+      "areaServed": "Brasil",
+      "serviceType": "Consultoria em Marketing de Produto",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços de Consultoria em Marketing de Produto",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Posicionamento & Messaging",
+              "description": "Definição de ICP, framework de posicionamento, messaging hierarchy e validação com clientes reais."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Go-to-Market (GTM)",
+              "description": "Estratégia de lançamento de produto, playbook de vendas e enablement, segmentação de canais e métricas de GTM."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Consultoria de Equipe PMM",
+              "description": "Diagnóstico de maturidade PMM, definição de estrutura e papéis, processos e rituais de equipe, mentoria de líderes de PMM."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Pesquisa de Competidores",
+              "description": "Mapeamento de landscape competitivo, análise de win/loss, battle cards para vendas e monitoramento contínuo do mercado."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Estratégia de Conteúdo PMM",
+              "description": "Mapa de conteúdo por jornada do comprador, sales enablement content, thought leadership editorial e case studies."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sessão Estratégica (1:1)",
+              "description": "Sessão focada de 90 minutos para destravar um desafio específico de Marketing de Produto, com diagnóstico, framework e plano de ação documentado."
+            }
+          }
+        ]
+      }
+    }
+  ]
+  </script>
 
   <!-- Schema.org para AEO de Serviços e Entidade -->
   <script type="application/ld+json">
@@ -44,10 +145,12 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="{{ '/assets/css/landing.css' | relative_url }}" />
 </head>
+
 <body>
   {{ content }}
 
@@ -55,4 +158,5 @@
   <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/50933491.js"></script>
   <!-- End of HubSpot Embed Code -->
 </body>
+
 </html>
